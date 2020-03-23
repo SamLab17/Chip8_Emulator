@@ -88,7 +88,7 @@ void SDLInterface::printText(uint32_t x, uint32_t y, const char *str, float scal
 }
 
 void
-SDLInterface::printMatrix(SDL_Rect *display_rect, bool *matrix, uint32_t matrix_w, uint32_t matrix_h,
+SDLInterface::printMatrix(const SDL_Rect *display_rect, const bool *matrix, uint32_t matrix_w, uint32_t matrix_h,
                           const Color *true_color,
                           const Color *false_color) {
     // The dimensions of a single pixel
@@ -115,6 +115,9 @@ void SDLInterface::clear() {
     SDL_RenderClear(renderer);
 }
 
+void SDLInterface::presentChanges() {
+    SDL_RenderPresent(renderer);
+}
 
 /* Helper methods for switching the color of the renderer */
 void SDLInterface::revertColor(uint32_t prev_color_state) {
@@ -131,4 +134,6 @@ uint32_t SDLInterface::switchToColor(const Color *c) {
     uint32_t prev_state = (r << RED_SHIFT) | (g << GREEN_SHIFT) | (b << BLUE_SHIFT);
     return prev_state;
 }
+
+
 

@@ -38,8 +38,10 @@ public:
 
     void printText(uint32_t x, uint32_t y, const char *str, float scale = 1.0f, const Color *c = &WHITE);
 
-    void printMatrix(SDL_Rect *display_rect, bool *matrix, uint32_t matrix_w, uint32_t matrix_h,
+    void printMatrix(const SDL_Rect *display_rect, const bool *matrix, uint32_t matrix_w, uint32_t matrix_h,
                      const Color *true_color, const Color *false_color);
+
+    void presentChanges();
 
     void clear();
 };
