@@ -274,7 +274,7 @@ void Chip8VM::emulateCycle() {
                     uint8_t hundreds = v_reg[x] / 100;
                     uint8_t tens = (v_reg[x] % 100) / 10;
                     uint8_t ones = (v_reg[x] % 10);
-                    std::cout << "Writing register BCD to memory" << std::endl;
+                    //std::cout << "Writing register BCD to memory" << std::endl;
                     memory[i_reg] = hundreds;
                     memory[i_reg + 1] = tens;
                     memory[i_reg + 2] = ones;
@@ -283,7 +283,7 @@ void Chip8VM::emulateCycle() {
                 case 0x55:
                     // Store registers V0 through Vx in memory starting at location I.
                     checkRegisterIndex(x);
-                    std::cout << "Writing registers to memory" << std::endl;
+                    //std::cout << "Writing registers to memory" << std::endl;
                     for (int i = 0; i <= x; i++)
                         memory[i_reg + i] = v_reg[i];
                     break;
