@@ -28,8 +28,18 @@ static constexpr int WINDOW_HEIGHT = 480;
 SDL_Window *gui_window = nullptr;
 SDL_Surface *window_surface = nullptr;
 
+static uint64_t next_time;
+static constexpr uint16_t TICK_INTERVAL = 16;
+
 // TODO: Refactor to make SDL GUI into a class. Constructor can handle initialization
 //  of window, destructor can handle cleaning up.
+
+uint64_t time_left() {
+    uint64_t now = SDL_GetTicks();
+    if (next_time <= now)
+        return 0;
+    return next_time - now;
+}
 
 int main(int argc, char **argv) {
 //    vm = new Chip8VM(read_program("CONNECT4"), 512);
@@ -44,7 +54,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    vm = new Chip8VM(read_program("C8Programs/Sierpinski.ch8"), 512);
+    vm = new Chip8VM(read_program("C8Programs/VBRIX"), 512);
     auto gui = new Chip8GUI("Chip 8 Emulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
     vm->emulateCycle();
@@ -56,6 +66,7 @@ int main(int argc, char **argv) {
     bool quit = false;
     bool new_cycle = false;
     bool step_mode = true;
+    next_time = SDL_GetTicks() + TICK_INTERVAL;
     while (!quit) {
         // Event loop, handle all events in queue until queue is empty
         while (SDL_PollEvent(&e)) {
@@ -96,7 +107,9 @@ int main(int argc, char **argv) {
             gui->redrawWindow();
             new_cycle = false;
         }
-        SDL_Delay(10);
+        SDL_Delay(time_left());
+        next_time += TICK_INTERVAL;
+        //SDL_Delay(10);
     }
 
     delete gui;

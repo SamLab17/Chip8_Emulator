@@ -13,13 +13,16 @@ Chip8GUI::Chip8GUI(const char *title, uint32_t x, uint32_t y) {
     if (gui_window == nullptr) {
         throw std::runtime_error("Could not initialize GUI window");
     }
+    /*
     window_surface = SDL_GetWindowSurface(gui_window);
     if (window_surface == nullptr) {
         throw std::runtime_error("Could fetch window surface");
     }
+     */
 
-    renderer = SDL_GetRenderer(gui_window);
+    renderer = SDL_CreateRenderer(gui_window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == nullptr) {
+        std::cout << SDL_GetError() << std::endl;
         throw std::runtime_error("Could not create SDL Renderer");
     }
 
@@ -174,6 +177,9 @@ void Chip8GUI::displayVMInfo(Chip8VM *vm, bool is_paused) {
     displayRegisters(vm->getVRegisters(), vm->getIRegister(), vm->getDelayTimer(), vm->getSoundTimer(), vm->getPC(),
                      vm->getStackPointer(), vm->getOpCode());
     displayMemoryPane(vm->getMemory(), vm->getPC(), vm->getIRegister());
+    //if(vm->draw_flag) {
     displayGraphics(vm->getGraphics());
+    vm->draw_flag = false;
+    //}
     writeStatus(is_paused);
 }
