@@ -2,11 +2,11 @@
 // Created by Samuel Laberge on 3/21/20.
 //
 
-#include "FontSprites.h"
+#include "GUIPrinter.h"
 #include "Color.h"
 #include <stdexcept>
 
-FontSprites::FontSprites(SDL_Renderer *renderer) {
+GUIPrinter::GUIPrinter(SDL_Renderer *renderer) {
     this->renderer = renderer;
     loadTexture();
     //Initialize character rect look up table
@@ -14,7 +14,7 @@ FontSprites::FontSprites(SDL_Renderer *renderer) {
 
 }
 
-void FontSprites::init_rect_table() {
+void GUIPrinter::init_rect_table() {
     int x = 0, y = 0;
     for (int i = 0; i < 256; i++) {
         SDL_Rect *curr = &(character_rects[i]);
@@ -27,7 +27,7 @@ void FontSprites::init_rect_table() {
     }
 }
 
-void FontSprites::loadTexture() {
+void GUIPrinter::loadTexture() {
     SDL_Surface *loaded_surface = SDL_LoadBMP(SPRITE_SHEET_FILE_NAME);
     if (loaded_surface == nullptr) {
         throw std::runtime_error("Could not find fonts file.");
@@ -38,7 +38,7 @@ void FontSprites::loadTexture() {
     }
 }
 
-void FontSprites::queueCharRender(int x, int y, char c, Color color) {
+void GUIPrinter::queueCharRender(int x, int y, char c, Color color) {
     SDL_Rect clip_to_render = character_rects[c];
     SDL_Rect location{x, y, clip_to_render.w, clip_to_render.h};
     uint8_t r, g, b;
@@ -49,7 +49,7 @@ void FontSprites::queueCharRender(int x, int y, char c, Color color) {
     //SDL_RenderPresent(renderer);
 }
 
-void FontSprites::queueStringRender(int x, int y, const char *str, int len, Color c) {
+void GUIPrinter::queueStringRender(int x, int y, const char *str, int len, Color c) {
     int curr_x = x, curr_y = y;
     for (int i = 0; i < len; i++) {
         if (str[i] == '\n') {
@@ -62,6 +62,6 @@ void FontSprites::queueStringRender(int x, int y, const char *str, int len, Colo
     }
 }
 
-FontSprites::~FontSprites() {
+GUIPrinter::~GUIPrinter() {
     SDL_DestroyTexture(texture);
 }
