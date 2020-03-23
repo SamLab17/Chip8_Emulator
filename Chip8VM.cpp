@@ -5,7 +5,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
-#include "Chip8.h"
+#include "Chip8VM.h"
 
 using namespace C8Constants;
 
@@ -24,25 +24,24 @@ Chip8VM::Chip8VM(void *program_buffer, uint32_t program_size) {
 
     clearGraphics();
 
-    //Load program into memory
+    //Load program into memory at program start offset
     for (uint32_t i = 0; i < program_size; i++) {
         memory[i + PROG_START] = ((char *) program_buffer)[i];
-        //printf("%x\n", memory[i+PRGM_START]);
     }
 
     memset(key_status, false, 16 * sizeof(bool));
 }
 
+/*
+ * Emulates a clock tick of the Chip8 Machine.
+ * This should be called 60 times per second.
+ */
 void Chip8VM::emulateCycle() {
     if (pc + 1 >= MEM_SIZE) {
         throw std::out_of_range("PC was out of bounds");
     }
-    //Fetch
     uint16_t instruction = (memory[pc] << 8u) | memory[pc + 1];
-    //printf("Instruction : %x\n", instruction);
-    //printf("PC = %x\n", pc);
     uint8_t first_nibble = (instruction & 0xF000u) >> 12u;
-    //printf("First nibble : %x\n", first_nibble);
     // Variable names come from documentation names
     uint16_t nnn = instruction & 0x0FFFu;
     uint8_t n = instruction & 0x000Fu;
@@ -50,7 +49,6 @@ void Chip8VM::emulateCycle() {
     uint8_t y = (instruction & 0x00F0u) >> 4u;
     uint8_t kk = instruction & 0x00FFu;
 
-    //Decode
     bool advance_pc = true;
     switch (first_nibble) {
         case 0:
@@ -301,7 +299,6 @@ void Chip8VM::emulateCycle() {
             throw std::invalid_argument("first_nibble value is incorrect");
     }
 
-    //Execute
     if (advance_pc)
         pc += 2;
 
@@ -311,16 +308,26 @@ void Chip8VM::emulateCycle() {
         st_reg--;
 }
 
+/*
+ * Checks to make sure a given V register index is valid.
+ * Will throw an exception if it is not valid.
+ */
 void Chip8VM::checkRegisterIndex(uint16_t index) {
     if (index >= NUM_V_REGS)
         throw std::invalid_argument("Invalid register index");
 }
 
+/*
+ * Clear the graphics array, sets all cells to false
+ */
 void Chip8VM::clearGraphics() {
     memset(graphics, 0, GRAPHICS_SIZE);
     draw_flag = true;
 }
 
+/*
+ * Draws the given n-byte sprite at the location (x, y) on the screen.
+ */
 void Chip8VM::drawSprite(const uint8_t *sprite, uint8_t n, uint8_t x, uint8_t y) {
     v_reg[0xF] = 0;
     // Loop through the lines of the sprite
@@ -340,41 +347,22 @@ void Chip8VM::drawSprite(const uint8_t *sprite, uint8_t n, uint8_t x, uint8_t y)
     draw_flag = true;
 }
 
-void Chip8VM::printGraphics() {
-    if (draw_flag) {
-        for (int r = 0; r < SCREEN_HEIGHT; r++) {
-            for (int c = 0; c < SCREEN_WIDTH; c++) {
-                if (graphics[r][c])
-                    std::cout << "#";
-                else
-                    std::cout << "-";
-            }
-            std::cout << std::endl;
-        }
-        draw_flag = false;
-    }
-}
-
+/*
+ * Public interface for a hex key being pressed down.
+ * Marks key as currently being pressed
+ */
 void Chip8VM::keyPressed(uint8_t key_val) {
     if (key_val >= 16)
         throw std::invalid_argument("Invalid key code passed to keyPressed.");
     key_status[key_val] = true;
 }
 
+/*
+ * Public interface for a hex key having been released.
+ * Marks key as not being pressed.
+ */
 void Chip8VM::keyReleased(uint8_t key_val) {
     if (key_val >= 16)
         throw std::invalid_argument("Invalid key code passed to keyReleased.");
     key_status[key_val] = false;
 }
-
-//
-//void Chip8VM::print_regs(){
-//    printf("V Reg: ");
-//    for(const auto& value: v_reg){
-//        printf("%02x ", value);
-//    }
-//    printf("- I Reg: %0x ", i_reg);
-//    printf("- dt_reg: %0x ", dt_reg);
-//    printf("- st_reg: %0x ", st_reg);
-//    printf("\n");
-//}
