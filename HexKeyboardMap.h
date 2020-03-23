@@ -14,6 +14,10 @@ class HexKeyboardMap {
     uint8_t hex_value[MAP_SIZE];
 public:
     HexKeyboardMap();
+
+    bool isValidHexKey(int key);
+
+    uint8_t hexValue(int key);
 };
 
 

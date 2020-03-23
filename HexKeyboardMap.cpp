@@ -8,7 +8,9 @@
 
 
 HexKeyboardMap::HexKeyboardMap() {
+    // Fill hex value map with an invalid hex value
     memset(hex_value, 0x10, MAP_SIZE);
+
     memset(valid_hex_keys, false, MAP_SIZE);
 
     // Create hex keyboard layout
@@ -59,4 +61,14 @@ HexKeyboardMap::HexKeyboardMap() {
 
     hex_value[SDLK_v] = 0xF;
     valid_hex_keys[SDLK_v] = true;
+}
+
+bool HexKeyboardMap::isValidHexKey(int key) {
+    if (key >= MAP_SIZE || key < 0)
+        return false;
+    return valid_hex_keys[key];
+}
+
+uint8_t HexKeyboardMap::hexValue(int key) {
+    return hex_value[key];
 }
