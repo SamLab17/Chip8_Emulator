@@ -3,9 +3,11 @@
 #include <fstream>
 #include <SDL.h>
 
-#include "Chip8.h"
-#include "Chip8GUI.h"
+#include "Chip8VM.h"
+#include "DetailedGUI.h"
+#include "Controller.h"
 
+/*
 char *read_program(const char *file_name);
 
 bool init_sdl();
@@ -22,43 +24,31 @@ KEY_CLASS key_class_table[128];
 uint8_t hex_keyboard_table[128];
 
 Chip8VM *vm;
-static constexpr int WINDOW_WIDTH = 640;
-static constexpr int WINDOW_HEIGHT = 480;
-
-SDL_Window *gui_window = nullptr;
-SDL_Surface *window_surface = nullptr;
 
 static uint64_t next_time;
 static constexpr uint16_t TICK_INTERVAL = 16;
 
-// TODO: Refactor to make SDL GUI into a class. Constructor can handle initialization
-//  of window, destructor can handle cleaning up.
-
 uint64_t time_left() {
     uint64_t now = SDL_GetTicks();
-    if (next_time <= now)
+    if (next_time <= now) {
+        std::cout<<"No time to sleep!"<<std::endl;
         return 0;
+    }
     return next_time - now;
 }
 
 int main(int argc, char **argv) {
-//    vm = new Chip8VM(read_program("CONNECT4"), 512);
-//    while(true){
-//        vm->emulateCycle();
-//        vm->printGraphics();
-//        usleep(16666u);
-//    }
     init_lookup_tables();
     if (!init_sdl()) {
         std::cout << "Failed to initialize SDL" << std::endl;
         return 1;
     }
 
-    vm = new Chip8VM(read_program("C8Programs/VBRIX"), 512);
-    auto gui = new Chip8GUI("Chip 8 Emulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+    vm = new Chip8VM(read_program("C8Programs/PONG"), 512);
+    auto gui = new DetailedGUI("Chip 8 Emulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
     vm->emulateCycle();
-    gui->newFrame();
+    //gui->newFrame();
     gui->displayVMInfo(vm, true);
     gui->redrawWindow();
 
@@ -77,7 +67,7 @@ int main(int argc, char **argv) {
                 auto key_code = e.key.keysym.sym;
                 if (key_code == SDLK_SPACE) {
                     new_cycle = true;
-                } else if (key_code == SDLK_RETURN) {
+                } else if (key_code == SDLK_RETURN || key_code == SDLK_ESCAPE) {
                     step_mode = !step_mode;
                 } else if (key_code <= 127) {
                     // Ignore keycodes > 127, we won't consider these keys for now
@@ -102,7 +92,7 @@ int main(int argc, char **argv) {
         }
         if (!step_mode || new_cycle) {
             vm->emulateCycle();
-            gui->newFrame();
+            //gui->newFrame();
             gui->displayVMInfo(vm, step_mode);
             gui->redrawWindow();
             new_cycle = false;
@@ -117,10 +107,6 @@ int main(int argc, char **argv) {
     SDL_Quit();
 }
 
-/**
- * Initializes the SDL window and surface
- * @return true if successful, false if an error occured
- */
 bool init_sdl() {
     return SDL_Init(SDL_INIT_VIDEO) >= 0;
 }
@@ -190,4 +176,11 @@ char *read_program(const char *file_name) {
         std::cout << "Failed to open program file" << std::endl;
     }
     return buffer;
+}
+ */
+
+int main(int argc, char **argv) {
+    Controller *c = new Controller("C8Programs/PONG");
+    c->start(false);
+    c->quit(0);
 }
