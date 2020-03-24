@@ -2,10 +2,10 @@
 
 ## Screenshots
 
-![](sreenshots/pong.png)
-![](sreenshots/maze.png)
-![](sreenshots/vbrix.png)
-![](sreenshots/vbrix2.png)
+![](screenshots/pong.png)
+![](screenshots/maze.png)
+![](screenshots/vbrix.png)
+![](screenshots/vbrix2.png)
 
 ## References
 
