@@ -1,6 +1,7 @@
-//
-// Created by Samuel Laberge on 3/23/20.
-//
+/*
+ * Chip 8 Emulator & Interpreter
+ * Copyright (c) 2020 Samuel Laberge.
+ */
 
 #ifndef CHIP8_EMULATOR_HEXKEYBOARDMAP_H
 #define CHIP8_EMULATOR_HEXKEYBOARDMAP_H

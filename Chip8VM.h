@@ -1,6 +1,7 @@
-//
-// Created by Samuel Laberge on 3/19/20.
-//
+/*
+ * Chip 8 Emulator & Interpreter
+ * Copyright (c) 2020 Samuel Laberge.
+ */
 
 #ifndef CHIP8_EMULATOR_CHIP8VM_H
 #define CHIP8_EMULATOR_CHIP8VM_H

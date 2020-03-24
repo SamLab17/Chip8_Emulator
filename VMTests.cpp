@@ -1,7 +1,7 @@
-//
-// Created by Samuel Laberge on 3/21/20.
-//
-
+/*
+ * Chip 8 Emulator & Interpreter
+ * Copyright (c) 2020 Samuel Laberge.
+ */
 
 #include <iostream>
 #include "gtest/gtest.h"
