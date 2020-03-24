@@ -7,7 +7,7 @@
 
 // Helper function for creating a SDL_Rect struct
 SDL_Rect *create_rect(uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
-    SDL_Rect *rect = new SDL_Rect;
+    auto *rect = new SDL_Rect;
     rect->x = x;
     rect->y = y;
     rect->w = w;
@@ -29,7 +29,7 @@ void SDLInterface::newWindow(uint32_t width, uint32_t height, const char *title)
         throw std::runtime_error("Could not create SDL Renderer");
     }
 
-    printer = new GUIPrinter(renderer);
+    printer = new GUITextPrinter(renderer);
     if (!printer) {
         throw std::runtime_error("Failed to create GUI printer");
     }
@@ -63,12 +63,12 @@ void SDLInterface::fillRect(SDL_Rect *rect, const Color *c) {
     revertColor(prev);
 }
 
-void SDLInterface::printText(uint32_t x, uint32_t y, const char *str, float scale, const Color *c) {
+void SDLInterface::displayText(uint32_t x, uint32_t y, const char *str, float scale, const Color *c) {
     // Prevent divide by zero error
     if (scale == 0)
         return;
     if (!str)
-        throw std::invalid_argument("str passed into printText was null.");
+        throw std::invalid_argument("str passed into displayText was null.");
 
     uint32_t scaled_x = x / scale;
     uint32_t scaled_y = y / scale;
@@ -80,7 +80,7 @@ void SDLInterface::printText(uint32_t x, uint32_t y, const char *str, float scal
     SDL_RenderGetScale(renderer, &prev_scale_x, &prev_scale_y);
     SDL_RenderSetScale(renderer, scale, scale);
 
-    printer->queueStringRender(scaled_x, scaled_y, str, len);
+    printer->queueStringRender(scaled_x, scaled_y, str);
 
     //Restore scale and color state
     SDL_RenderSetScale(renderer, prev_scale_x, prev_scale_y);
@@ -88,9 +88,13 @@ void SDLInterface::printText(uint32_t x, uint32_t y, const char *str, float scal
 }
 
 void
-SDLInterface::printMatrix(const SDL_Rect *display_rect, const bool *matrix, uint32_t matrix_w, uint32_t matrix_h,
-                          const Color *true_color,
-                          const Color *false_color) {
+SDLInterface::displayMatrix(const SDL_Rect *display_rect, const bool *matrix, uint32_t matrix_w, uint32_t matrix_h,
+                            const Color *true_color,
+                            const Color *false_color) {
+    if (!matrix)
+        throw std::invalid_argument("matrix passed to displayMatrix was null.");
+    if (!display_rect)
+        throw std::invalid_argument("display_rect passed to displayMatrix was null.");
     // The dimensions of a single pixel
     int px_width = (display_rect->w) / matrix_w;
     int px_height = (display_rect->h) / matrix_h;
@@ -111,8 +115,10 @@ SDLInterface::printMatrix(const SDL_Rect *display_rect, const bool *matrix, uint
     }
 }
 
-void SDLInterface::clear() {
+void SDLInterface::clear(const Color *clear_color) {
+    uint32_t prev_color = switchToColor(clear_color);
     SDL_RenderClear(renderer);
+    revertColor(prev_color);
 }
 
 void SDLInterface::presentChanges() {
