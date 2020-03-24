@@ -9,7 +9,6 @@ SimpleGUI::SimpleGUI(Controller *controller, Chip8VM *vm) {
     this->controller = controller;
     this->sdl = new SDLInterface;
     sdl->newWindow(WINDOW_RECT.w, WINDOW_RECT.h, WINDOW_TITLE);
-    is_paused = true;
 }
 
 void SimpleGUI::drawNextFrame() {

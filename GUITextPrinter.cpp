@@ -37,17 +37,17 @@ void GUITextPrinter::loadTexture() {
     }
 }
 
-void GUITextPrinter::queueCharRender(int x, int y, char c, Color color) {
+void GUITextPrinter::queueCharRender(int x, int y, char c, const Color *color) {
     SDL_Rect clip_to_render = character_rects[c];
     SDL_Rect location{x, y, clip_to_render.w, clip_to_render.h};
     uint8_t r, g, b;
     SDL_GetTextureColorMod(texture, &r, &g, &b);
-    SDL_SetTextureColorMod(texture, color.red, color.green, color.blue);
+    SDL_SetTextureColorMod(texture, color->red, color->green, color->blue);
     SDL_RenderCopy(renderer, texture, &clip_to_render, &location);
     SDL_SetTextureColorMod(texture, r, g, b);
 }
 
-void GUITextPrinter::queueStringRender(int x, int y, const char *str, Color c) {
+void GUITextPrinter::queueStringRender(int x, int y, const char *str, const Color *c) {
     int curr_x = x, curr_y = y;
     int len = strlen(str);
     for (int i = 0; i < len; i++) {

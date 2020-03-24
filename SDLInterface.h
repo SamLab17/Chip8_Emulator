@@ -58,7 +58,7 @@ public:
     /*
      * Overload which takes a SDL_Rect object to define the rectangle
      */
-    void drawRect(SDL_Rect *rect, const Color *c = &WHITE);
+    void drawRect(const SDL_Rect *rect, const Color *c = &WHITE);
 
     /*
      * Fills in the rectangle defined by the top left corner (x, y) and the given width and height.
@@ -69,7 +69,7 @@ public:
     /*
      * Overload which takes a SDL_Rect object to define the rectangle
      */
-    void fillRect(SDL_Rect *rect, const Color *c = &WHITE);
+    void fillRect(const SDL_Rect *rect, const Color *c = &WHITE);
 
     /*
      * Displays a string (c-style) at the given x, y with an optional scale and color

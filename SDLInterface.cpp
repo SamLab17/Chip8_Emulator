@@ -41,7 +41,7 @@ void SDLInterface::drawRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, cons
     delete rect;
 }
 
-void SDLInterface::drawRect(SDL_Rect *rect, const Color *c) {
+void SDLInterface::drawRect(const SDL_Rect *rect, const Color *c) {
     if (rect == nullptr)
         throw std::invalid_argument("rect passed into drawRect was null.");
     uint32_t prev = switchToColor(c);
@@ -55,7 +55,7 @@ void SDLInterface::fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, cons
     delete rect;
 }
 
-void SDLInterface::fillRect(SDL_Rect *rect, const Color *c) {
+void SDLInterface::fillRect(const SDL_Rect *rect, const Color *c) {
     if (rect == nullptr)
         throw std::invalid_argument("rect passed into fillRect was null.");
     uint32_t prev = switchToColor(c);
@@ -80,7 +80,7 @@ void SDLInterface::displayText(uint32_t x, uint32_t y, const char *str, float sc
     SDL_RenderGetScale(renderer, &prev_scale_x, &prev_scale_y);
     SDL_RenderSetScale(renderer, scale, scale);
 
-    printer->queueStringRender(scaled_x, scaled_y, str);
+    printer->queueStringRender(scaled_x, scaled_y, str, c);
 
     //Restore scale and color state
     SDL_RenderSetScale(renderer, prev_scale_x, prev_scale_y);

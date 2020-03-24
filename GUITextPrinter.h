@@ -69,12 +69,12 @@ public:
     /*
      * Prints a single character, c, to the screen at position x, y in a given color
      */
-    void queueCharRender(int x, int y, char c, Color color = WHITE);
+    void queueCharRender(int x, int y, char c, const Color *color = &WHITE);
 
     /*
      * Prints a string at a position x, y in a given color
      */
-    void queueStringRender(int x, int y, const char *str, Color c = WHITE);
+    void queueStringRender(int x, int y, const char *str, const Color *c = &WHITE);
 
     /*
      * Destructor
