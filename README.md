@@ -1,11 +1,21 @@
 # Chip 8 Emulator/Interpreter
 
-## Screenshots
+An emulator and interpreter for the Chip 8 system written in C++.
 
-![](screenshots/pong.png)
-![](screenshots/maze.png)
+Currently, there are two GUI views available a simple and detailed view. 
+The simple view only displays the graphics output by the Chip 8 emulator.
+
+The detailed view includes the graphics output along with information about the Chip 8's registers and memory.
+In the detailed view, the user can pause the program and step through each instruction one-by-one.
+
+## Screenshots (Simple View)
 ![](screenshots/vbrix.png)
 ![](screenshots/vbrix2.png)
+
+
+## Screenshots (Detailed View)
+![](screenshots/pong.png)
+![](screenshots/maze.png)
 
 ## References
 
