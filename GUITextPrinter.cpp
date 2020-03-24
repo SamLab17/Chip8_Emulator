@@ -27,9 +27,6 @@ void GUITextPrinter::init_rect_table() {
     }
 }
 
-/**
- * Loads the sprite sheet file into memory as an SDL_Texture
- */
 void GUITextPrinter::loadTexture() {
     SDL_Surface *loaded_surface = SDL_LoadBMP(SPRITE_SHEET_FILE_NAME);
     if (loaded_surface == nullptr) {
@@ -41,9 +38,6 @@ void GUITextPrinter::loadTexture() {
     }
 }
 
-/*
- * Prints a single character, c, to the screen at position x, y in a given color
- */
 void GUITextPrinter::queueCharRender(int x, int y, char c, Color color) {
     SDL_Rect clip_to_render = character_rects[c];
     SDL_Rect location{x, y, clip_to_render.w, clip_to_render.h};
@@ -54,9 +48,6 @@ void GUITextPrinter::queueCharRender(int x, int y, char c, Color color) {
     SDL_SetTextureColorMod(texture, r, g, b);
 }
 
-/*
- * Prints a string at a position x, y in a given color
- */
 void GUITextPrinter::queueStringRender(int x, int y, const char *str, Color c) {
     int curr_x = x, curr_y = y;
     int len = strlen(str);
@@ -72,5 +63,6 @@ void GUITextPrinter::queueStringRender(int x, int y, const char *str, Color c) {
 }
 
 GUITextPrinter::~GUITextPrinter() {
+    // De-allocates memory used to store sprite sheet texture
     SDL_DestroyTexture(texture);
 }
