@@ -17,9 +17,8 @@ GUITextPrinter::GUITextPrinter(SDL_Renderer *renderer) {
 void GUITextPrinter::init_rect_table() {
     int x = 0, y = 0;
     for (auto &char_rect : character_rects) {
-        //SDL_Rect *curr = &character_rect;
-        char_rect.x = (x % 16) * CHAR_WIDTH;
-        char_rect.y = (y / 16) * CHAR_HEIGHT;
+        char_rect.x = (x % SPRITES_PER_COLUMN) * CHAR_WIDTH;
+        char_rect.y = (y / SPRITES_PER_ROW) * CHAR_HEIGHT;
         char_rect.w = CHAR_WIDTH;
         char_rect.h = CHAR_HEIGHT;
         x++;

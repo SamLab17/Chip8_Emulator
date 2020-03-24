@@ -13,8 +13,20 @@
 #include "Color.h"
 
 class GUITextPrinter {
+    /*
+     * File name of the font sprite sheet.
+     */
     static constexpr const char *SPRITE_SHEET_FILE_NAME = "font.bmp";
+
+    /*
+     * The dimensions of a single sprite in the sprite sheet
+     */
     static constexpr uint8_t CHAR_WIDTH = 10, CHAR_HEIGHT = 12;
+
+    /*
+     * The dimensions of the sprite sheet in units of sprites.
+     */
+    static constexpr uint8_t SPRITES_PER_ROW = 16, SPRITES_PER_COLUMN = 16;
 
     /*
      * Pointer to the SDL_Renderer used to render to the
@@ -27,9 +39,11 @@ class GUITextPrinter {
      * a Rect defining where that character's sprite is located in the
      * sprite sheet.
      */
-    SDL_Rect character_rects[256];
+    SDL_Rect character_rects[SPRITES_PER_ROW * SPRITES_PER_COLUMN];
 
-    // Initializes the above table.
+    /*
+     * Initializes the above table.
+     */
     void init_rect_table();
 
     /*
@@ -38,7 +52,9 @@ class GUITextPrinter {
      */
     SDL_Texture *texture;
 
-    // Loads the sprite sheet into memory
+    /*
+     * Loads the sprite sheet into memory
+     */
     void loadTexture();
 
 public:
