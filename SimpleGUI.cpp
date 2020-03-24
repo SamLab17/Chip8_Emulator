@@ -13,17 +13,16 @@ SimpleGUI::SimpleGUI(Controller *controller, Chip8VM *vm) {
 }
 
 void SimpleGUI::drawNextFrame() {
-    // Draw VM Screen
+    // Emulate a cycle and Draw the resulting screen
     vm->emulateCycle();
-    sdl->printMatrix(&WINDOW_RECT, vm->getGraphics(), C8Constants::SCREEN_WIDTH, C8Constants::SCREEN_HEIGHT, &BLACK,
-                     &WHITE);
+    sdl->displayMatrix(&WINDOW_RECT, vm->getGraphics(), C8Constants::SCREEN_WIDTH, C8Constants::SCREEN_HEIGHT);
     sdl->presentChanges();
 }
 
 void SimpleGUI::processEvent(SDL_Event &e) {
     if (e.type == SDL_QUIT) {
         // Quit the program with no error code
-        controller->quit(0);
+        controller->quit();
 
     } else if (e.type == SDL_KEYDOWN) {
         // A key was pressed down
@@ -40,5 +39,9 @@ void SimpleGUI::processEvent(SDL_Event &e) {
 
     }
     //If not one of the above, then do nothing.
+}
+
+SimpleGUI::~SimpleGUI() {
+    delete sdl;
 }
 
