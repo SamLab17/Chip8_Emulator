@@ -12,14 +12,17 @@
 
 #include "Chip8Constants.h"
 
-// TODO: Write unit tests for the CPU
 using namespace C8Constants;
 
 class Chip8VM {
 private:
+    /*
+     * Checks to make sure a given V register index is valid.
+     * Will throw an exception if it is not valid.
+     */
     static void checkRegisterIndex(uint16_t index);
 
-    /* Internal data and registers for VM */
+    /* Internal data and registers for the Chip 8 VM */
     uint8_t memory[MEM_SIZE]{};
     uint16_t pc;
     uint16_t stack[STACK_SIZE]{};
@@ -29,9 +32,21 @@ private:
     uint8_t dt_reg;
     uint8_t st_reg;
 
-    /* VM Graphics */
+    /*
+     * Graphics matrix of the VM
+     * Pixels can be either on or off, thus pixel state is stored
+     * as a bool.
+     */
     bool graphics[SCREEN_HEIGHT][SCREEN_WIDTH];
+
+    /*
+     * Clear the graphics array, sets all cells to false
+     */
     void clearGraphics();
+
+    /*
+     * Draws the given n-byte sprite at the location (x, y) on the screen.
+     */
     void drawSprite(const uint8_t *sprite, uint8_t n, uint8_t x, uint8_t y);
 
     /* Random Number Generator */
@@ -44,13 +59,23 @@ private:
     bool key_status[16];
 
 public:
+    /*
+     * Constructor
+     * Loads program into memory, initializes registers and graphics
+     * Loads the default C8 font into memory
+     */
     Chip8VM(void *program_buffer, uint32_t program_size);
 
-    /* Emulate one clock cycle of the VM */
+    /*
+     * Emulates a clock tick of the Chip8 Machine.
+     * This should be called 60 times per second.
+     */
     void emulateCycle();
 
     /*
      * Accessor Methods for GUI Display and Testing
+     * Methods which return a pointer return a const pointer to prevent
+     * another class from writing to the registers
      */
     uint16_t getPC() { return pc; }
 
@@ -72,7 +97,16 @@ public:
 
     const bool *getGraphics() { return reinterpret_cast<const bool *>(&graphics); }
 
+    /*
+     * Public interface for a hex key being pressed down.
+     * Marks key as currently being pressed
+     */
     void keyPressed(uint8_t key_val);
+
+    /*
+     * Public interface for a hex key having been released.
+     * Marks key as not being pressed.
+     */
     void keyReleased(uint8_t key_val);
 };
 
