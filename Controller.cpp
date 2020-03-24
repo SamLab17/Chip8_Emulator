@@ -8,13 +8,19 @@
 #include "Controller.h"
 #include "SimpleGUI.h"
 
+/*
+ * Quits the program. Terminates the program
+ * and finalizes SDL
+ */
 void Controller::quit(int exit_code) {
-    SDL_Quit();
     running = false;
-    exit(exit_code);
+    SDL_Quit();
 }
 
-
+/*
+ * Controller constructor, reads in program from disk
+ * and initializes the VM
+ */
 Controller::Controller(const char *program_name) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw std::runtime_error("Failed to initialize SDL");
@@ -47,12 +53,16 @@ void Controller::start(bool detailed) {
 
     next_time = SDL_GetTicks() + TICK_INTERVAL;
     SDL_Event e;
+
     running = true;
     while (running) {
+        // Pass events to GUI
         while (SDL_PollEvent(&e)) {
             gui->processEvent(e);
         }
+        // Draw the next frame to the window
         gui->drawNextFrame();
+        // Delay to maintain frame rate
         SDL_Delay(delayTime());
         next_time += TICK_INTERVAL;
     }
