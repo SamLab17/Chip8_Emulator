@@ -2,32 +2,35 @@
 // Created by Samuel Laberge on 3/21/20.
 //
 
-#include "GUIPrinter.h"
+#include "GUITextPrinter.h"
 #include "Color.h"
 #include <stdexcept>
+#include <cstring>
 
-GUIPrinter::GUIPrinter(SDL_Renderer *renderer) {
+GUITextPrinter::GUITextPrinter(SDL_Renderer *renderer) {
     this->renderer = renderer;
     loadTexture();
     //Initialize character rect look up table
     init_rect_table();
-
 }
 
-void GUIPrinter::init_rect_table() {
+void GUITextPrinter::init_rect_table() {
     int x = 0, y = 0;
-    for (int i = 0; i < 256; i++) {
-        SDL_Rect *curr = &(character_rects[i]);
-        curr->x = (x % 16) * CHAR_WIDTH;
-        curr->y = (y / 16) * CHAR_HEIGHT;
-        curr->w = CHAR_WIDTH;
-        curr->h = CHAR_HEIGHT;
+    for (auto &char_rect : character_rects) {
+        //SDL_Rect *curr = &character_rect;
+        char_rect.x = (x % 16) * CHAR_WIDTH;
+        char_rect.y = (y / 16) * CHAR_HEIGHT;
+        char_rect.w = CHAR_WIDTH;
+        char_rect.h = CHAR_HEIGHT;
         x++;
         y++;
     }
 }
 
-void GUIPrinter::loadTexture() {
+/**
+ * Loads the sprite sheet file into memory as an SDL_Texture
+ */
+void GUITextPrinter::loadTexture() {
     SDL_Surface *loaded_surface = SDL_LoadBMP(SPRITE_SHEET_FILE_NAME);
     if (loaded_surface == nullptr) {
         throw std::runtime_error("Could not find fonts file.");
@@ -38,7 +41,10 @@ void GUIPrinter::loadTexture() {
     }
 }
 
-void GUIPrinter::queueCharRender(int x, int y, char c, Color color) {
+/*
+ * Prints a single character, c, to the screen at position x, y in a given color
+ */
+void GUITextPrinter::queueCharRender(int x, int y, char c, Color color) {
     SDL_Rect clip_to_render = character_rects[c];
     SDL_Rect location{x, y, clip_to_render.w, clip_to_render.h};
     uint8_t r, g, b;
@@ -46,11 +52,14 @@ void GUIPrinter::queueCharRender(int x, int y, char c, Color color) {
     SDL_SetTextureColorMod(texture, color.red, color.green, color.blue);
     SDL_RenderCopy(renderer, texture, &clip_to_render, &location);
     SDL_SetTextureColorMod(texture, r, g, b);
-    //SDL_RenderPresent(renderer);
 }
 
-void GUIPrinter::queueStringRender(int x, int y, const char *str, int len, Color c) {
+/*
+ * Prints a string at a position x, y in a given color
+ */
+void GUITextPrinter::queueStringRender(int x, int y, const char *str, Color c) {
     int curr_x = x, curr_y = y;
+    int len = strlen(str);
     for (int i = 0; i < len; i++) {
         if (str[i] == '\n') {
             curr_y += CHAR_HEIGHT;
@@ -62,6 +71,6 @@ void GUIPrinter::queueStringRender(int x, int y, const char *str, int len, Color
     }
 }
 
-GUIPrinter::~GUIPrinter() {
+GUITextPrinter::~GUITextPrinter() {
     SDL_DestroyTexture(texture);
 }
