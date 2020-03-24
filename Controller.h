@@ -30,14 +30,25 @@ private:
     uint32_t delayTime();
 
 public:
-    // Constructor, loads in program and initializes vm
+    /*
+     * Controller constructor.
+     * Reads in program file from the disk and initializes the VM object
+     * with this program.
+     */
     Controller(const char *program_name);
 
-    // Start the emulation cycle, this function will return once window is closed
+    /*
+     * Starts the emulation loop for the program specified in the constructor.
+     * This function will return once emulation is ended by closing the GUI window.
+     */
     void start(bool detailed);
 
-    // Terminates the emulation loop. This will be called by a GUI object
-    void quit(int exit_code);
+    /*
+     * Terminates the emulation loop.
+     * This method will be called by the GUI object which was created in start() once
+     * it receives an event which tells it to stop emulation.
+     */
+    void quit();
 };
 
 
