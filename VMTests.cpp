@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include "gtest/gtest.h"
-#include "Chip8.h"
+#include "Chip8VM.h"
 #include "Chip8Constants.h"
 
 using namespace C8Constants;

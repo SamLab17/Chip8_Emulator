@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Controller.h"
 
+
 int main(int argc, char **argv) {
     auto *c = new Controller("C8Programs/PONG");
     c->start(false);
