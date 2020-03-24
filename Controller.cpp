@@ -7,6 +7,7 @@
 #include <fstream>
 #include "Controller.h"
 #include "SimpleGUI.h"
+#include "DetailedGUI.h"
 
 void Controller::quit() {
     running = false;
@@ -41,6 +42,7 @@ uint32_t Controller::delayTime() {
 void Controller::start(bool detailed) {
     if (detailed) {
         // Create a DetailedGUI object
+        gui = new DetailedGUI(this, vm);
     } else {
         gui = new SimpleGUI(this, vm);
     }
@@ -56,16 +58,22 @@ void Controller::start(bool detailed) {
     running = true;
     while (running) {
         // Events loop
-        while (SDL_PollEvent(&e)) {
+        while (SDL_PollEvent(&e) && running) {
             // Pass events to GUI
             gui->processEvent(e);
         }
 
-        // Draw the next frame to the window
-        gui->drawNextFrame();
+        /*
+         * Check to see if one of the events we processed ended
+         * the emulation loop
+         */
+        if (running) {
+            // Draw the next frame to the window
+            gui->drawNextFrame();
 
-        // Delay to maintain frame rate
-        SDL_Delay(delayTime());
-        next_time += TICK_INTERVAL;
+            // Delay to maintain frame rate
+            SDL_Delay(delayTime());
+            next_time += TICK_INTERVAL;
+        }
     }
 }
