@@ -23,7 +23,8 @@ private:
     C8GUI *gui;
     uint32_t next_time;
     bool running;
-    static constexpr uint32_t EMULATION_FREQUENCY = 100;
+    // Number of cpu cycles to emulate per second
+    static constexpr uint32_t EMULATION_FREQUENCY = 60;
     static constexpr uint32_t SEC_TO_MILLISEC = 1000;
     // The number of milliseconds between ticks
     static constexpr uint32_t TICK_INTERVAL = (uint32_t) ((1.0 / EMULATION_FREQUENCY) * SEC_TO_MILLISEC);
