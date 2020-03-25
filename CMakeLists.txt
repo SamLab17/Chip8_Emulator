@@ -48,7 +48,7 @@ set(VM_SOURCE source/Chip8VM.cpp source/Chip8VM.h)
 
 # Source files for running the GUI executable
 set(GUI_SOURCE_FILES
-        source/main.cpp
+        source/GUIMain.cpp
         source/DetailedGUI.cpp
         source/DetailedGUI.h
         source/Chip8Constants.h
@@ -72,12 +72,12 @@ set(GUI_SOURCE_FILES
 set(TEST_FILES source/VMTests.cpp)
 
 # GUI Exectuable
-add_executable(Chip8_Emulator ${VM_SOURCE} ${GUI_SOURCE_FILES})
+add_executable(emulator ${VM_SOURCE} ${GUI_SOURCE_FILES})
 
 # Unit Test Executable
-add_executable(Chip8_Tester ${VM_SOURCE} ${TEST_FILES})
+add_executable(tester ${VM_SOURCE} ${TEST_FILES})
 
-target_link_libraries(Chip8_Emulator ${SDL2_LIBRARY})
-target_link_libraries(Chip8_Tester gtest_main)
+target_link_libraries(emulator ${SDL2_LIBRARY})
+target_link_libraries(tester gtest_main)
 
 

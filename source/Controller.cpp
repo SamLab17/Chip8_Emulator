@@ -27,7 +27,8 @@ Controller::Controller(const char *program_name) {
         input.seekg(0, std::ios::beg);
         input.read(buffer, 512);
     } else {
-        throw std::runtime_error("Could not read program file");
+        fprintf(stderr, "Could not read program file: %s.", program_name);
+        throw std::runtime_error("Could not read program file. Aborting.");
     }
     vm = new Chip8VM(buffer, input.gcount());
 }
