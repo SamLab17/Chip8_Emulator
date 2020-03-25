@@ -138,7 +138,6 @@ void DetailedGUI::processEvent(SDL_Event &e) {
 
 }
 
-
 DetailedGUI::~DetailedGUI() {
     delete sdl;
 }
