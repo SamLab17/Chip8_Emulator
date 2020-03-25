@@ -46,11 +46,14 @@ void DetailedGUI::drawMemoryPane() {
     sdl->fillRect(&MEM_PANE_RECT, &BACKGROUND);
     sdl->drawRect(&MEM_PANE_RECT, &BORDER_LINE);
     sdl->displayText(MEM_PANE_RECT.x + 4, MEM_PANE_RECT.y + 6, "Memory", 2.0);
-    displayMemoryAroundAddr(MEM_PANE_RECT.x + 4, MEM_PANE_RECT.y + 40, vm->getPC(), vm->getMemory(), RED);
-    displayMemoryAroundAddr(MEM_PANE_RECT.x + 150, MEM_PANE_RECT.y + 40, vm->getIRegister(), vm->getMemory(), BLUE);
+    displayMemoryAroundAddr(MEM_PANE_RECT.x + 4, MEM_PANE_RECT.y + 40, vm->getPC(),
+                            vm->getMemory(), &PC_MEM_HIGHLIGHT);
+    displayMemoryAroundAddr(MEM_PANE_RECT.x + 150, MEM_PANE_RECT.y + 40, vm->getIRegister(),
+                            vm->getMemory(), &I_MEM_HIGHLIGHT);
 }
 
-void DetailedGUI::displayMemoryAroundAddr(int x, int y, uint16_t addr, const uint8_t *mem, Color highlight_color) {
+void
+DetailedGUI::displayMemoryAroundAddr(int x, int y, uint16_t addr, const uint8_t *mem, const Color *highlight_color) {
     int num_lines_around_addr = 16;
     int y_inc = 16;
     for (int i = num_lines_around_addr; i >= 1; i--) {
@@ -65,7 +68,7 @@ void DetailedGUI::displayMemoryAroundAddr(int x, int y, uint16_t addr, const uin
     if (addr < C8Constants::MEM_SIZE) {
         char buffer_at_pc[20];
         sprintf(buffer_at_pc, "0x%04x : 0x%02x", addr, mem[addr]);
-        sdl->displayText(x, y, buffer_at_pc, 1.0, &highlight_color);
+        sdl->displayText(x, y, buffer_at_pc, 1.0, highlight_color);
         y += y_inc;
     }
 
@@ -133,6 +136,11 @@ void DetailedGUI::processEvent(SDL_Event &e) {
     }
     //If not one of the above, then do nothing.
 
+}
+
+
+DetailedGUI::~DetailedGUI() {
+    delete sdl;
 }
 
 

@@ -35,6 +35,8 @@ private:
     static constexpr Color BACKGROUND{40, 44, 52};
     static constexpr Color BORDER{33, 37, 43};
     static constexpr Color BORDER_LINE{96, 99, 104};
+    static constexpr Color PC_MEM_HIGHLIGHT = RED;
+    static constexpr Color I_MEM_HIGHLIGHT{0, 255, 255};
 
     bool is_paused;
     bool step;
@@ -54,15 +56,33 @@ private:
 
     void drawRegisterPane();
 
-    void displayMemoryAroundAddr(int x, int y, uint16_t addr, const uint8_t *mem, Color highlight_color);
+    void displayMemoryAroundAddr(int x, int y, uint16_t addr, const uint8_t *mem, const Color *highlight_color);
 
 public:
+    /*
+     * Constructor
+     * Initializes GUI view and assigns instance variables
+     */
     DetailedGUI(Controller *controller, Chip8VM *vm);
 
+    /*
+     * Draws the entire detailed window, including VM grpahics,
+     * register view, and memory view. Will also advance VM by one
+     * cycle. Should be called at 60Hz.
+     */
     void drawNextFrame() override;
 
+    /*
+     * Processes keyboard and window events.
+     * Forwards hex keys to the VM, interprets Escape/Return to
+     * pause emulation, and Space to step to the next instruction
+     */
     void processEvent(SDL_Event &e) override;
 
+    /*
+     * Destructor
+     * Cleans up GUI by deleting SDLInterface object
+     */
     ~DetailedGUI();
 };
 
