@@ -96,6 +96,13 @@ SDLInterface::displayMatrix(const SDL_Rect *display_rect, const bool *matrix, ui
         throw std::invalid_argument("matrix passed to displayMatrix was null.");
     if (!display_rect)
         throw std::invalid_argument("display_rect passed to displayMatrix was null.");
+
+    /*
+     * Fill in the display rect with the false color, so we only have to
+     * draw "true' cells after this
+    */
+    fillRect(display_rect, false_color);
+
     // The dimensions of a single pixel
     int px_width = (display_rect->w) / matrix_w;
     int px_height = (display_rect->h) / matrix_h;
@@ -109,8 +116,6 @@ SDLInterface::displayMatrix(const SDL_Rect *display_rect, const bool *matrix, ui
             // Fill in rect with appropriate color
             if (matrix[r * matrix_w + c]) {
                 fillRect(&pixel_rect, true_color);
-            } else {
-                fillRect(&pixel_rect, false_color);
             }
         }
     }
