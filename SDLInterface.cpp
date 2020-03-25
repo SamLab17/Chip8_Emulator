@@ -16,8 +16,9 @@ SDL_Rect *create_rect(uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
     return rect;
 }
 
-/* Public interface methods */
-
+/*
+ * Public interface methods
+ */
 void SDLInterface::newWindow(uint32_t width, uint32_t height, const char *title) {
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
     if (window == nullptr) {
@@ -131,7 +132,9 @@ void SDLInterface::presentChanges() {
     SDL_RenderPresent(renderer);
 }
 
-/* Helper methods for switching the color of the renderer */
+/*
+ * Private helper methods for switching the color of the renderer
+ */
 void SDLInterface::revertColor(uint32_t prev_color_state) {
     uint8_t r = (prev_color_state & RED_MASK) >> RED_SHIFT;
     uint8_t g = (prev_color_state & GREEN_MASK) >> GREEN_SHIFT;
@@ -147,5 +150,12 @@ uint32_t SDLInterface::switchToColor(const Color *c) {
     return prev_state;
 }
 
-
+/*
+ * Destructor
+ */
+SDLInterface::~SDLInterface() {
+    delete printer;
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+}
 

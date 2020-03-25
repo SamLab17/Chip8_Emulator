@@ -96,6 +96,12 @@ public:
      * Clears the entire window with the given color
      */
     void clear(const Color *clear_color = &WHITE);
+
+    /*
+     * Destructor
+     * Destroys Window, Renderer, and GUITextPrinter object
+     */
+    ~SDLInterface();
 };
 
 
