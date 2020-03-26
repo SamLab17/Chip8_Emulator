@@ -12,12 +12,32 @@ In the detailed view, the user can pause the program and step through each instr
 
 ## Building
 
+The following are instructions on how to build the Emulator and testing source code.
+
+### Installing SDL 2.0
 This emulator uses SDL 2.0 for graphics so that needs to be installed first.
-On MacOS using `brew`:
+
+#### MacOS
+
+On MacOS using homebrew:
+
 ```
 brew install sdl2
 ```
 
+#### Linux
+
+On Ubuntu/Debian:
+```
+sudo apt-get install libsdl2-dev
+```
+
+On Arch:
+```
+sudo pacman -S sdl2
+```
+
+### Emulator Executable
 
 Once SDL is installed, clone this respository and enter the repository's root directory.
 Run the following commands:
@@ -25,7 +45,24 @@ Run the following commands:
 cmake .
 make emulator
 ```
-This will produce an executable named `emulator`. Run `./emulator -h` for usage information.
+This will produce an executable named `emulator`. To run the included demo program, run:
+
+```
+./emulator LonghornDemo.ch8
+```
+
+To get a more detailed GUI, run:
+
+```
+./emulator -d LonghornDemo.ch8
+```
+
+Or, run `./emulator -h` for more usage information. 
+
+There are more Chip 8 programs available [here](https://github.com/dmatlack/chip8/tree/master/roms/).
+
+
+### Unit Tests Executable
 
 To build the unit testing executable, run these commands instead:
 ```
@@ -34,13 +71,13 @@ make tester
 ```
 This will produce an executable named `tester`. It takes no command line arguments.
 
-## Screenshots (Simple View)
+## Screenshots (Default, simple GUI)
 
 ![](screenshots/vbrix.png)
 ![](screenshots/vbrix2.png)
 
 
-## Screenshots (Detailed View)
+## Screenshots (Detailed GUI)
 
 ![](screenshots/pong.png)
 ![](screenshots/maze.png)
