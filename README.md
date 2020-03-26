@@ -10,6 +10,30 @@ The simple view only displays the graphics output by the Chip 8 emulator.
 The detailed view includes the graphics output along with information about the Chip 8's registers and memory.
 In the detailed view, the user can pause the program and step through each instruction one-by-one.
 
+## Building
+
+This emulator uses SDL 2.0 for graphics so that needs to be installed first.
+On MacOS using `brew`:
+```
+brew install sdl2
+```
+
+
+Once SDL is installed, clone this respository and enter the repository's root directory.
+Run the following commands:
+```
+cmake .
+make emulator
+```
+This will produce an executable named `emulator`. Run `./emulator -h` for usage information.
+
+To build the unit testing executable, run these commands instead:
+```
+cmake .
+make tester
+```
+This will produce an executable named `tester`. It takes no command line arguments.
+
 ## Screenshots (Simple View)
 
 ![](screenshots/vbrix.png)
