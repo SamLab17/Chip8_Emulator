@@ -1,6 +1,9 @@
 # Chip 8 Emulator/Interpreter
 
 An emulator and interpreter for the Chip 8 system written in C++.
+
+![](screenshots/pong.png)
+
 Graphics were done using the [SDL 2.0 library](https://www.libsdl.org).
 Unit tests on the emulator written using [GoogleTest](https://github.com/google/googletest).
 
@@ -18,7 +21,7 @@ In the detailed view, the user can pause the program and step through each instr
 
 ## Screenshots (Detailed View)
 
-![](screenshots/pong.png)
+![](screenshots/longhorn.png)
 ![](screenshots/maze.png)
 
 ## Attributions
