@@ -25,7 +25,9 @@ In the detailed view, the user can pause the program and step through each instr
 
 The font sprite sheet used was created by user "Hobo" and was downloaded from [here](https://opengameart.org/content/monospace-bitmap-fonts-english-russian)
 
-The Chip 8 Programs included in the screenshots and used during development were found [here](https://github.com/dmatlack/chip8/tree/master/roms).
+The Chip 8 Programs included in the screenshots and used during development (except for  `LonghornDemo.ch8`) were found [here](https://github.com/dmatlack/chip8/tree/master/roms).
+
+The Octo Chip8 IDE made by John Earnest was extremely useful in creating `LonghornDemo.ch8`. It can be used [here](http://johnearnest.github.io/Octo/).
 
 ## References
 
