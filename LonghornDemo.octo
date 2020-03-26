@@ -1,0 +1,262 @@
+#
+#  LonghornDemo Chip 8 Demo Program
+#  Copyright (c) 2020 Samuel Laberge.
+#
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, version 3.
+#
+#  This program is distributed in the hope that it will be useful, but
+#  WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
+#
+# This file is written in "Octo Assembly". To compile it to
+# Chip 8 machine code, go to http://johnearnest.github.io/Octo/
+#
+
+#Program starting point
+: main
+clear
+
+# Line 0
+i := label00
+v0 := 0
+v1 := 0
+sprite v0 v1 0x08
+
+i := label01
+v0 += 0x08
+sprite v0 v1 0x08
+
+i := label02
+v0 += 0x08
+sprite v0 v1 0x08
+
+i := label05
+v0 += 0x18
+sprite v0 v1 0x08
+
+i := label06
+v0 += 0x08
+sprite v0 v1 0x08
+
+i := label07
+v0 += 0x08
+sprite v0 v1 0x08
+
+# Line 1
+i := label12
+v0 := 0x10
+v1 += 0x08
+sprite v0 v1 0x08
+
+i := label13
+v0 += 0x08
+sprite v0 v1 0x08
+
+i := label14
+v0 += 0x08
+sprite v0 v1 0x08
+
+i := label15
+v0 += 0x08
+sprite v0 v1 0x08
+
+# Line 2
+i := label23
+v0 := 0x18
+v1 += 0x08
+sprite v0 v1 0x08
+
+i := label24
+v0 += 0x08
+sprite v0 v1 0x08
+
+# Line 3
+i := label33
+v0 := 0x18
+v1 += 0x08
+sprite v0 v1 0x08
+
+i := label34
+v0 += 0x08
+sprite v0 v1 0x08
+
+loop
+again
+
+# longhorn.png was split into 8x8 squares. Since the image
+# is 64x32 pixels, that results in 8x4 squares. Each of the
+# following labels refers to a square. The first number is
+# the row/line number and the second number is the column number.
+# i.e. label00 = top left corner, label37 = bottom right corner
+: label00
+0x00
+0x00
+0x00
+0x03
+0x00
+0x00
+0x00
+0x00
+: label01
+0x00
+0x00
+0x00
+0xF0
+0x1C
+0x06
+0x03
+0x00
+: label02
+0x00
+0x00
+0x00
+0x00
+0x00
+0x00
+0x80
+0xE0
+: label03
+# All Zeroes
+: label04
+# All zeroes
+: label05
+0x00
+0x00
+0x00
+0x00
+0x00
+0x00
+0x01
+0x07
+: label06
+0x00
+0x00
+0x00
+0x0F
+0x38
+0x60
+0xC0
+0x00
+: label07
+0x00
+0x00
+0x00
+0xC0
+0x00
+0x00
+0x00
+0x00
+
+: label10
+# All zeroes
+: label11
+# All zeroes
+: label12
+0x70
+0x1f
+0x0F
+0x07
+0x03
+0x07
+0x07
+0x00
+: label13
+0x0F
+0x3f
+0xff
+0xff
+0xff
+0xff
+0xbf
+0x3f
+: label14
+0xf0
+0xfe
+0xff
+0xff
+0xff
+0xff
+0xfd
+0xfc
+: label15
+0x0e
+0x7c
+0xf0
+0xe0
+0xc0
+0xe0
+0xe0
+0x00
+: label16
+# All zeroes
+: label17
+# All zeroes
+
+: label20
+# All Zeroes
+: label21
+# All Zeroes
+: label22
+# All Zeroes
+: label23
+0x3f
+0x1f
+0x1f
+0x0f
+0x0f
+0x07
+0x07
+0x07
+: label24
+0xfc
+0xf8
+0xf8
+0xf0
+0xf0
+0xe0
+0xe0
+0xe0
+: label25
+: label26
+: label27
+# All zeroes
+
+: label30
+# All zeroes
+: label31
+# All zeroes
+: label32
+# All zeroes
+: label33
+0x0f
+0x0f
+0x0f
+0x07
+0x07
+0x03
+0x00
+0x00
+: label34
+0xf0
+0xf0
+0xf0
+0xe0
+0xe0
+0xc0
+0x00
+0x00
+: label35
+# All zeroes
+: label36
+# All zeroes
+: label37
+# All zeroes
